@@ -44,7 +44,7 @@ jobs:
 
       - name: Generate data
         run: |
-          renv::activate()
+          install.packages(c("rvest, magrittr"))
           source("R/job.R")
         shell: Rscript {0}
 
