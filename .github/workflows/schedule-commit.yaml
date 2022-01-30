@@ -29,8 +29,6 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-    steps:
-
       - name: Cache packages
         uses: actions/cache@v1
         with:
