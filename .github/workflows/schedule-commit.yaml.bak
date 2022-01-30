@@ -31,7 +31,6 @@ jobs:
 
       - name: Query dependencies
         run: |
-          install.packages('curl')
           install.packages('remotes')
           install.packages('sessioninfo')
           install.packages('rvest')
