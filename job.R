@@ -1,6 +1,3 @@
-install.packages(rvest)
-install.packages(magrittr)
-
 library(rvest)
 library(magrittr)
 url <- "https://www.actionnetwork.com/nba/public-betting"
