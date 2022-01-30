@@ -29,29 +29,21 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@master
 
-      - name: Query dependencies
-        run: |
-          install.packages('curl')
-          install.packages('remotes')
-          install.packages('sessioninfo')
-          install.packages('rvest')
-          install.packages('magrittr')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
+    steps:
 
-      - name: Cache R packages
+      - name: Cache packages
         uses: actions/cache@v1
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+            path: ${{ env.RENV_PATHS_ROOT }}
+            key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+            restore-keys: |
+                ${{ runner.os }}-renv-
 
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = TRUE)
+      - name: Restore packages
         shell: Rscript {0}
-
+        run: |
+            if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
+        
       - name: Generate data
         run: |
           source("R/job.R")
